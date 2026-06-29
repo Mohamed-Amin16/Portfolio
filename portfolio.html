@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mohamed Amin – Full Stack .NET Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0a0f1e;
+    --surface: #111827;
+    --card: #161f30;
+    --border: #1e2d45;
+    --accent: #3b82f6;
+    --accent2: #60a5fa;
+    --accent-glow: rgba(59,130,246,0.15);
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --dim: #4b5563;
+    --green: #22c55e;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Space Grotesk', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1rem 3rem;
+    background: rgba(10,15,30,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 1rem;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none;
+    font-size: 0.875rem; font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent2); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 8rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.3;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 40%, transparent 100%);
+  }
+  .hero-blob {
+    position: absolute; top: 20%; left: 55%;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-content { position: relative; max-width: 700px; }
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block; width: 32px; height: 1px;
+    background: var(--accent);
+  }
+  h1 {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.25rem;
+  }
+  h1 span { color: var(--accent); }
+  .hero-subtitle {
+    font-size: 1.1rem; color: var(--muted);
+    max-width: 560px; margin-bottom: 2rem;
+  }
+  .hero-badges {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+    margin-bottom: 2.5rem;
+  }
+  .badge {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    padding: 0.3rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--muted);
+    background: var(--surface);
+  }
+  .badge.hi { border-color: var(--accent); color: var(--accent2); background: var(--accent-glow); }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-family: var(--sans); font-size: 0.9rem; font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer; border: none;
+  }
+  .btn-primary {
+    background: var(--accent); color: #fff;
+  }
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent2); }
+
+  /* ── SECTIONS ── */
+  section { padding: 5rem 3rem; }
+  .section-label {
+    font-family: var(--mono);
+    font-size: 0.75rem; color: var(--accent);
+    letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  h2 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 700; letter-spacing: -0.02em;
+    margin-bottom: 3rem;
+  }
+  .container { max-width: 1100px; margin: 0 auto; }
+  .section-line {
+    width: 48px; height: 3px;
+    background: var(--accent);
+    margin-bottom: 1rem;
+    border-radius: 2px;
+  }
+
+  /* ── ABOUT ── */
+  #about .about-grid {
+    display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; align-items: center;
+  }
+  .photo-frame {
+    position: relative;
+    width: 260px;
+  }
+  .photo-frame::before {
+    content: '';
+    position: absolute; inset: -8px;
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    opacity: 0.4;
+  }
+  .photo-frame img {
+    width: 100%; border-radius: 10px;
+    display: block;
+    filter: grayscale(20%);
+  }
+  .about-text p { color: var(--muted); margin-bottom: 1rem; line-height: 1.8; }
+  .about-meta {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  .meta-item { font-size: 0.85rem; }
+  .meta-item .label { color: var(--dim); font-family: var(--mono); font-size: 0.7rem; text-transform: uppercase; }
+  .meta-item .val { color: var(--text); font-weight: 500; }
+
+  /* ── SKILLS ── */
+  #skills { background: var(--surface); }
+  .skills-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;
+  }
+  .skill-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .skill-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .skill-card h3 { font-size: 0.85rem; color: var(--accent2); margin-bottom: 0.75rem; font-family: var(--mono); }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .skill-tag {
+    font-size: 0.72rem;
+    padding: 0.2rem 0.6rem;
+    background: var(--surface);
+    border-radius: 4px;
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+
+  /* ── PROJECTS ── */
+  .projects-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;
+  }
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.75rem;
+    display: flex; flex-direction: column;
+    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    position: relative; overflow: hidden;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    opacity: 0; transition: opacity 0.25s;
+  }
+  .project-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.4); }
+  .project-card:hover::before { opacity: 1; }
+  .project-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
+  .project-icon { font-size: 1.5rem; }
+  .project-links { display: flex; gap: 0.5rem; }
+  .project-link {
+    color: var(--dim); text-decoration: none;
+    font-size: 0.8rem; padding: 0.25rem 0.6rem;
+    border: 1px solid var(--border); border-radius: 4px;
+    transition: all 0.2s;
+    display: flex; align-items: center; gap: 0.3rem;
+  }
+  .project-link:hover { color: var(--accent2); border-color: var(--accent); }
+  .project-card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
+  .project-badge {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    font-size: 0.65rem; font-family: var(--mono);
+    padding: 0.2rem 0.5rem;
+    background: rgba(34,197,94,0.1); color: var(--green);
+    border: 1px solid rgba(34,197,94,0.2); border-radius: 3px;
+    margin-bottom: 0.75rem;
+  }
+  .project-card p { color: var(--muted); font-size: 0.875rem; line-height: 1.7; flex: 1; margin-bottom: 1rem; }
+  .project-stack { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: auto; }
+  .stack-tag {
+    font-family: var(--mono); font-size: 0.65rem;
+    padding: 0.2rem 0.5rem;
+    background: var(--surface); border-radius: 3px;
+    color: var(--accent2); border: 1px solid var(--border);
+  }
+
+  /* ── EXPERIENCE ── */
+  #experience { background: var(--surface); }
+  .exp-item {
+    display: grid; grid-template-columns: 140px 1fr; gap: 2rem;
+    padding: 2rem 0; border-bottom: 1px solid var(--border);
+  }
+  .exp-item:last-child { border-bottom: none; }
+  .exp-date { font-family: var(--mono); font-size: 0.75rem; color: var(--dim); padding-top: 4px; }
+  .exp-role { font-size: 1rem; font-weight: 600; color: var(--text); }
+  .exp-org { font-size: 0.85rem; color: var(--accent2); margin-bottom: 0.5rem; }
+  .exp-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.7; }
+
+  /* ── CERTIFICATIONS ── */
+  .certs-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;
+  }
+  .cert-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .cert-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .cert-preview {
+    position: relative; overflow: hidden;
+    background: #0d1424; height: 180px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+  .cert-preview img {
+    width: 100%; height: 100%; object-fit: cover;
+    opacity: 0.7; transition: opacity 0.25s, transform 0.25s;
+  }
+  .cert-preview:hover img { opacity: 1; transform: scale(1.04); }
+  .cert-preview-overlay {
+    position: absolute; inset: 0;
+    background: rgba(10,15,30,0.6);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.25s;
+    color: #fff; font-size: 0.8rem;
+  }
+  .cert-preview:hover .cert-preview-overlay { opacity: 1; }
+  .cert-info { padding: 1.25rem; }
+  .cert-info h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.25rem; }
+  .cert-info .org { font-size: 0.78rem; color: var(--accent2); margin-bottom: 0.25rem; font-family: var(--mono); }
+  .cert-info .date { font-size: 0.72rem; color: var(--dim); }
+  .cert-info .hours {
+    font-size: 0.7rem; font-family: var(--mono);
+    margin-top: 0.5rem;
+    padding: 0.2rem 0.5rem;
+    background: var(--accent-glow); border-radius: 3px;
+    color: var(--accent2); display: inline-block;
+    border: 1px solid var(--border);
+  }
+
+  /* ── LIGHTBOX ── */
+  .lightbox {
+    display: none; position: fixed; inset: 0; z-index: 999;
+    background: rgba(0,0,0,0.92);
+    align-items: center; justify-content: center;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 90vw; max-height: 90vh; border-radius: 8px; box-shadow: 0 32px 80px rgba(0,0,0,0.8); }
+  .lightbox-close {
+    position: absolute; top: 1.5rem; right: 2rem;
+    font-size: 2rem; color: #fff; cursor: pointer;
+    background: none; border: none; line-height: 1;
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--bg);
+    text-align: center;
+  }
+  #contact h2 { margin-bottom: 0.75rem; }
+  #contact p { color: var(--muted); max-width: 500px; margin: 0 auto 2.5rem; }
+  .contact-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; }
+  .contact-link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--border); border-radius: 8px;
+    color: var(--muted); text-decoration: none;
+    font-size: 0.875rem; transition: all 0.2s;
+    background: var(--card);
+  }
+  .contact-link:hover { border-color: var(--accent); color: var(--accent2); background: var(--accent-glow); }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 2rem 3rem;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-family: var(--mono); font-size: 0.72rem;
+    color: var(--dim);
+  }
+
+  /* ── FADE IN ANIMATION ── */
+  .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-in.visible { opacity: 1; transform: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 1.5rem; }
+    #hero { padding: 7rem 1.5rem 3rem; }
+    #about .about-grid { grid-template-columns: 1fr; }
+    .photo-frame { width: 200px; margin: 0 auto; }
+    .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .exp-date { font-size: 0.7rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">&lt;MohamedAmin /&gt;</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#certifications">Certifications</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-blob"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Full Stack .NET Developer</div>
+    <h1>Mohamed<br><span>Amin</span></h1>
+    <p class="hero-subtitle">Building scalable, secure, and high-performance RESTful APIs & web applications — backed by clean architecture and a passion for engineering excellence.</p>
+    <div class="hero-badges">
+      <span class="badge hi">ASP.NET Core</span>
+      <span class="badge hi">Angular</span>
+      <span class="badge hi">Clean Architecture</span>
+      <span class="badge">SignalR</span>
+      <span class="badge">Entity Framework</span>
+      <span class="badge">SQL Server</span>
+      <span class="badge">Redis</span>
+      <span class="badge">DEPI Team Lead</span>
+    </div>
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="fade-in">
+        <div class="photo-frame">
+          <img src="5886442006081375802.jpg" alt="Mohamed Amin" />
+        </div>
+      </div>
+      <div class="fade-in">
+        <div class="section-label">About Me</div>
+        <div class="section-line"></div>
+        <h2 style="margin-bottom:1.25rem">The Engineer<br>Behind the Code</h2>
+        <p>I'm a Full Stack .NET developer with a focus on backend architecture, specializing in building RESTful APIs that are secure, scalable, and maintainable. My foundation in CS theory — combined with hands-on project experience — means I think in systems, not just features.</p>
+        <p>I apply Clean Architecture, Onion Architecture, Repository Pattern, and SOLID principles as default practice, not afterthoughts. I've led development teams, managed sprint backlogs, and conducted code reviews under real project pressure.</p>
+        <div class="about-meta">
+          <div class="meta-item">
+            <div class="label">Degree</div>
+            <div class="val">BSc Computer Science — Excellent</div>
+          </div>
+          <div class="meta-item">
+            <div class="label">University</div>
+            <div class="val">Sohag University</div>
+          </div>
+          <div class="meta-item">
+            <div class="label">GPA</div>
+            <div class="val">3.43 / 4.0</div>
+          </div>
+          <div class="meta-item">
+            <div class="label">Location</div>
+            <div class="val">Egypt</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="section-label">Technical Expertise</div>
+    <div class="section-line"></div>
+    <h2>Skills & Stack</h2>
+    <div class="skills-grid">
+      <div class="skill-card fade-in">
+        <h3>Backend Development</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">C#</span>
+          <span class="skill-tag">ASP.NET Core Web API</span>
+          <span class="skill-tag">LINQ</span>
+          <span class="skill-tag">Entity Framework Core</span>
+          <span class="skill-tag">SignalR</span>
+        </div>
+      </div>
+      <div class="skill-card fade-in">
+        <h3>Architecture & Design</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">Clean Architecture</span>
+          <span class="skill-tag">Onion Architecture</span>
+          <span class="skill-tag">Repository Pattern</span>
+          <span class="skill-tag">Unit of Work</span>
+          <span class="skill-tag">SOLID Principles</span>
+        </div>
+      </div>
+      <div class="skill-card fade-in">
+        <h3>Frontend Development</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">Angular</span>
+          <span class="skill-tag">TypeScript</span>
+          <span class="skill-tag">JavaScript ES6+</span>
+          <span class="skill-tag">HTML5</span>
+          <span class="skill-tag">CSS3</span>
+          <span class="skill-tag">Responsive Web Design</span>
+        </div>
+      </div>
+      <div class="skill-card fade-in">
+        <h3>AI & Computer Vision</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">OpenCV</span>
+          <span class="skill-tag">SIFT</span>
+          <span class="skill-tag">Canny Edge Detection</span>
+          <span class="skill-tag">Face Detection</span>
+          <span class="skill-tag">Speech Recognition</span>
+        </div>
+      </div>
+      <div class="skill-card fade-in">
+        <h3>Databases & Caching</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">SQL Server</span>
+          <span class="skill-tag">Redis</span>
+          <span class="skill-tag">Firebase</span>
+        </div>
+      </div>
+      <div class="skill-card fade-in">
+        <h3>Tools & Collaboration</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">Git</span>
+          <span class="skill-tag">GitHub</span>
+          <span class="skill-tag">Postman</span>
+          <span class="skill-tag">Swagger</span>
+          <span class="skill-tag">Agile / Scrum</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="section-label">Work</div>
+    <div class="section-line"></div>
+    <h2>Featured Projects</h2>
+    <div class="projects-grid">
+
+      <div class="project-card fade-in">
+        <div class="project-header">
+          <span class="project-icon">⚡</span>
+          <div class="project-links">
+            <a href="https://github.com/Hosam-Sherif/DEPI-GP" target="_blank" class="project-link">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+        <div class="project-badge">🟢 DEPI Graduation Project</div>
+        <h3>E-Auctions Platform</h3>
+        <p>Real-time online auctioning platform with live low-latency bidding updates. Handles multi-user concurrent bid transactions and automated auction lifecycle state transitions upon expiration.</p>
+        <div class="project-stack">
+          <span class="stack-tag">ASP.NET Core</span>
+          <span class="stack-tag">SignalR</span>
+          <span class="stack-tag">Clean Architecture</span>
+          <span class="stack-tag">WebSockets</span>
+          <span class="stack-tag">SQL Server</span>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-header">
+          <span class="project-icon">🏥</span>
+          <div class="project-links">
+            <a href="https://github.com/Mohamed-Amin16/Hospital-Managment-System_API" target="_blank" class="project-link">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+        <div class="project-badge">🎓 University Graduation — Excellent</div>
+        <h3>Hospital Management System</h3>
+        <p>Scalable enterprise healthcare software featuring remote patient tracking, automated clinical workflows, and data analytics. Decoupled Onion Architecture with RBAC for medical personnel and patients.</p>
+        <div class="project-stack">
+          <span class="stack-tag">ASP.NET Core</span>
+          <span class="stack-tag">Onion Architecture</span>
+          <span class="stack-tag">RBAC</span>
+          <span class="stack-tag">Entity Framework</span>
+          <span class="stack-tag">SQL Server</span>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-header">
+          <span class="project-icon">🏥</span>
+          <div class="project-links">
+            <a href="#" class="project-link" style="pointer-events:none;opacity:0.4">
+              Private
+            </a>
+          </div>
+        </div>
+        <div class="project-badge">🔧 Personal Project</div>
+        <h3>MediCare System</h3>
+        <p>Production-ready RESTful API for streamlined medical booking management and electronic health records. Repository Pattern & Unit of Work with full Swagger documentation for rapid frontend integration.</p>
+        <div class="project-stack">
+          <span class="stack-tag">ASP.NET Core</span>
+          <span class="stack-tag">Repository Pattern</span>
+          <span class="stack-tag">Unit of Work</span>
+          <span class="stack-tag">EF Core</span>
+          <span class="stack-tag">Swagger</span>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-header">
+          <span class="project-icon">🛒</span>
+          <div class="project-links">
+            <a href="https://github.com/Mohamed-Amin16/Talabat.APIsSolution" target="_blank" class="project-link">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+        <div class="project-badge">🔧 Personal Project</div>
+        <h3>Talabat.APIs – E-Commerce Platform</h3>
+        <p>Enterprise-grade e-commerce backend simulating shopping cart dynamics, order processing workflows, and secure payment integrations.</p>
+        <div class="project-stack">
+          <span class="stack-tag">ASP.NET Core</span>
+          <span class="stack-tag">E-Commerce</span>
+          <span class="stack-tag">Payment Integration</span>
+          <span class="stack-tag">Redis</span>
+          <span class="stack-tag">SQL Server</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="section-label">Career</div>
+    <div class="section-line"></div>
+    <h2>Experience</h2>
+
+    <div class="exp-item fade-in">
+      <div class="exp-date">Current</div>
+      <div>
+        <div class="exp-role">Full Stack .NET Team Lead</div>
+        <div class="exp-org">Digital Egypt Pioneers Initiative (DEPI) – Round 4</div>
+        <div class="exp-desc">Leading a cross-functional development team through intensive project delivery. Managing technical tasks, sprint backlogs, and ensuring software craftsmanship. Enforcing strict coding standards, architectural guidelines, SOLID principles, and conducting thorough code reviews.</div>
+      </div>
+    </div>
+
+    <div class="exp-item fade-in">
+      <div class="exp-date">2022 – 2026</div>
+      <div>
+        <div class="exp-role">Bachelor's in Computer Science</div>
+        <div class="exp-org">Faculty of Computers and AI, Sohag University</div>
+        <div class="exp-desc">Accumulated GPA: 3.43/4.0 — Overall Grade: Excellent. Graduation Project: Hospital Management System (Grade: Excellent).</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="container">
+    <div class="section-label">Credentials</div>
+    <div class="section-line"></div>
+    <h2>Certifications & Training</h2>
+    <div class="certs-grid">
+
+      <div class="cert-card fade-in">
+        <div class="cert-preview" onclick="openLightbox('5915856841227308823__2_.jpg')">
+          <img src="5915856841227308823__2_.jpg" alt="ITI Angular Certificate" />
+          <div class="cert-preview-overlay">🔍 View Certificate</div>
+        </div>
+        <div class="cert-info">
+          <h3>Front End Web Development Using Angular</h3>
+          <div class="org">ITI – Information Technology Institute</div>
+          <div class="date">Jul 2024 – Aug 2024</div>
+          <span class="hours">126 Lecture Hours</span>
+        </div>
+      </div>
+
+      <div class="cert-card fade-in">
+        <div class="cert-preview" onclick="openLightbox('5915856841227308822__2_.jpg')">
+          <img src="5915856841227308822__2_.jpg" alt="ITI Software Fundamentals Certificate" />
+          <div class="cert-preview-overlay">🔍 View Certificate</div>
+        </div>
+        <div class="cert-info">
+          <h3>Software Development Fundamentals</h3>
+          <div class="org">ITI – Information Technology Institute</div>
+          <div class="date">Jul 2023 – Aug 2023</div>
+          <span class="hours">120 Lecture Hours</span>
+        </div>
+      </div>
+
+      <div class="cert-card fade-in">
+        <div class="cert-preview" style="cursor:default;">
+          <div style="text-align:center; color:var(--muted); padding: 1rem;">
+            <div style="font-size:2.5rem; margin-bottom:0.5rem;">🏅</div>
+            <div style="font-family:var(--mono); font-size:0.75rem;">In Progress</div>
+          </div>
+        </div>
+        <div class="cert-info">
+          <h3>Specialized Track in .NET Backend Development</h3>
+          <div class="org">Digital Egypt Pioneers Initiative (DEPI)</div>
+          <div class="date">Round 4 – Current</div>
+          <span class="hours">In Progress</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-label" style="justify-content:center; display:flex;">Let's Connect</div>
+    <div class="section-line" style="margin:0.5rem auto 1.5rem;"></div>
+    <h2>Get In Touch</h2>
+    <p>Open to backend & full-stack opportunities, collaboration, and interesting engineering challenges.</p>
+    <div class="contact-links">
+      <a href="mailto:dev.mohamedamin@gmail.com" class="contact-link">
+        📧 dev.mohamedamin@gmail.com
+      </a>
+      <a href="tel:+201126094153" class="contact-link">
+        📞 (+20) 1126094153
+      </a>
+      <a href="https://github.com/Mohamed-Amin16" target="_blank" class="contact-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+        github.com/Mohamed-Amin16
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Built by Mohamed Amin · 2026 · All rights reserved</p>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="Certificate" onclick="event.stopPropagation()" />
+</div>
+
+<script>
+  // Fade in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Lightbox
+  function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+</body>
+</html>
